@@ -3,6 +3,7 @@
 import 'dotenv/config';
 import { ApiClient } from '@twurple/api';
 import { AppTokenAuthProvider } from '@twurple/auth';
+import translate from 'translate';
 
 import pkg from 'twilio';
 const { Twilio } = pkg;
@@ -15,6 +16,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = new Twilio(accountSid, authToken);
 
 const authProvider = new AppTokenAuthProvider(clientId, clientSecret);
+const barWithEndline = '---\n';
 
 const apiClient = new ApiClient({ authProvider });
 await apiClient.games
@@ -39,6 +41,11 @@ await apiClient.games
             if (stream.language !== 'en') {
               const language = `language: ${stream.language}\n`;
               body += language;
+
+              body += barWithEndline;
+              body += buildTranslatedMessage(stream.language);
+              body += barWithEndline;
+              
               console.log(language);
             }
 
@@ -52,7 +59,7 @@ await apiClient.games
             
             sendMessage(body);
             console.log(body);
-            console.log('---');
+            console.log(barWithEndline);
           });
         });
       });
@@ -67,4 +74,10 @@ function sendMessage(body) {
       from: `+${process.env.TWILIO_FROM_NUMBER}`,
     })
     .then((message) => console.log(message.sid));
+}
+
+async function buildTranslatedMessage(languageCode = 'en') {
+  translate.engine = process.env.TRANSLATE_ENGINE;
+  translate.key = process.env.TRANSLATE_KEY;
+  return await translate('Hello. Hope you are having a good stream. I have subscriber perks to this game. Is it ok for me to use them?', languageCode);
 }
