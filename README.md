@@ -1,5 +1,11 @@
 # game-notifier
 
+## THIS IS THE POC TO TEST THE LOGIC FOR THE UI AND API PROJECTS
+https://github.com/sgowell/game-notifier-ui/  
+https://github.com/sgowell/game-notifier-api/  
+
+---
+
 Configuration: 
 Please rename `.env.template` to `.env` and update the fields with your respective keys.  
 
