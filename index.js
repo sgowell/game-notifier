@@ -28,40 +28,42 @@ await apiClient.games
           const noStreams = `No ${item.name} Streams found\nCheck Back Later\nCheers.`;
           console.log(noStreams);
           sendMessage(noStreams);
-        }
-        gameStreams.data.forEach(async (stream) => {
-          var body = '';
-          const user = await stream.getUser();
+        } else {
+          gameStreams.data.forEach(async (stream) => {
+            var body = '';
+            const user = await stream.getUser();
 
-          apiClient.chat.getSettings(user.id).then((settings) => {
-            const twitchUrl = `Twitch URL: twitch://open?stream=${user.name}\n`;
-            body += twitchUrl;
-            console.log(twitchUrl);
+            apiClient.chat.getSettings(user.id).then(async (settings) => {
+              const twitchUrl = `Twitch URL: twitch://open?stream=${user.name}\n`;
+              body += twitchUrl;
+              console.log(twitchUrl);
 
-            if (stream.language !== 'en') {
-              const language = `language: ${stream.language}\n`;
-              body += language;
+              if (stream.language !== 'en') { 
+                const language = `language: ${stream.language}\n`;
 
-              body += barWithEndline;
-              body += buildTranslatedMessage(stream.language);
-              body += barWithEndline;
+                var translatedMessage = await buildTranslatedMessage(stream.language);
+
+                body += language;
+                body += `${translatedMessage}\n`;
+                body += barWithEndline;
+                
+                console.log(language);
+              }
+
+              const followerModeEnabled = settings.followerOnlyModeEnabled;
+              if (followerModeEnabled) {
+                const delay = settings.followerOnlyModeDelay ?? 'none';
+                const followerDelay = `Followers Only - Delay: ${delay} minutes\n`;
+                body += followerDelay;
+                console.log(followerDelay);
+              }
               
-              console.log(language);
-            }
-
-            const followerModeEnabled = settings.followerOnlyModeEnabled;
-            if (followerModeEnabled) {
-              const delay = settings.followerOnlyModeDelay ?? 'none';
-              const followerDelay = `Followers Only - Delay: ${delay} minutes\n`;
-              body += followerDelay;
-              console.log(followerDelay);
-            }
-            
-            sendMessage(body);
-            console.log(body);
-            console.log(barWithEndline);
+              sendMessage(body);
+              console.log(body);
+              console.log(barWithEndline);
+            });
           });
-        });
+        }
       });
     });
   });
