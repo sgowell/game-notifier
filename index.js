@@ -15,7 +15,8 @@ const gamesCache = new NodeCache();
 const clientId = process.env.TWITCH_CLIENT_ID;
 const clientSecret = process.env.TWITCH_CLIENT_SECRET;
 
-const refreshDuration = 60 * 1000 * 10 * .5 ; //5 minutes
+const refreshDuration = 60 * 1000 * 10 * .5 ; //5 minutes in milliseconds
+const cacheTTL = 600; // 10 minutes in seconds
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -65,7 +66,7 @@ setInterval(async () => {
                   }
                   body += `\n${new Date(Date.now())}\n`;
                   sendMessage(body);
-                  gamesCache.set(user.id, refreshDuration);
+                  gamesCache.set(user.id, cacheTTL);
                   console.log(body);
                 });
               }
