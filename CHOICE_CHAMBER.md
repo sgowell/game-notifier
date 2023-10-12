@@ -4,7 +4,7 @@
 Command | Effect
 |-|-|
 |+hellfire|Flames drop from the sky and burn enemies that pass through them.|
-|Hoarfrost|+hoarfrost|Encases all spawned enemies on the level in an ice cube|
+|+hoarfrost|Encases all spawned enemies on the level in an ice cube|
 
 ### [Sub Powers](https://choicechamber.com/sub/)
 If you subscribe to [OneMrBean on Twitch](https://www.twitch.tv/onemrbean/subscribe) you receive a number of commands.
@@ -21,4 +21,4 @@ If you subscribe to [OneMrBean on Twitch](https://www.twitch.tv/onemrbean/subscr
 |snow| Makes the next floor icy|
 |balloon| Gives the player a ballon that slows their descents|
 
-<sub>_*can slow down an older machine, or streams, and compress weirdly._
+<sub>_*can slow down an older machine, or streams, and compress weirdly._</sub>
